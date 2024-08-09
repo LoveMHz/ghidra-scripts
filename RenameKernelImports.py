@@ -385,7 +385,8 @@ kexports = [
 	'MmDbgWriteCheck'
 ]
 
-for index, kexport in enumerate(kexports):
-	funcs = getGlobalFunctions('Ordinal_{}'.format(index + 1))
-	for func in funcs:
-		func.setName(kexport, SourceType.ANALYSIS)
+symTab = currentProgram.getSymbolTable()
+iter = symTab.getSymbolIterator("Ordinal_*", True)
+for func in iter:
+	index = int(func.getName().split("_")[1])
+	func.setName(kexports[index], SourceType.ANALYSIS)
